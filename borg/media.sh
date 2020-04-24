@@ -7,6 +7,6 @@ then
 fi
 pwd
 
-udisksctl mount -b /dev/sdb2
+# udisksctl mount -b /dev/sdb2
 
-borg create -svp -C lz4 "Multimedia::Bilder-{now:%y.%j}" /run/media/jk/Multimedia/Bilder/
+borg create -svp -C lz4 "Multimedia::Bilder-{now:%y.%j}" /mnt/media/Bilder/

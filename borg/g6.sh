@@ -1,5 +1,5 @@
 #!/bin/bash
-MNT=MTP_MOUNT
+MNT=/tmp/MOUNT
 
 sh=$(basename $0)
 if [ -f $sh ] 
@@ -9,6 +9,7 @@ then
 fi
 pwd
 
+mkdir -p $MNT
 simple-mtpfs $MNT
 
 if [ "$(ls -A $MNT)" ]; then
