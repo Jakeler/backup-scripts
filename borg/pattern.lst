@@ -1,0 +1,47 @@
+P sh
+R /
+
+# General
+! /home/*/.cache
+! /home/*/Downloads
+! /home/*/VirtualBox VMs
+
+# KDE
+! /home/*/.local/share/baloo/
+
+# Android dev
+! /home/*/Android_SDK
+! /home/*/.android/avd
+
+# Android Studio
++ /home/*/.AndroidStudio*/config
+- /home/*/.AndroidStudio*/config/plugins
+- /home/*/.AndroidStudio*
+! /home/*/.gradle
+# Code
++ /home/*/.config/Code - OSS/User/settings.json
++ /home/*/.config/Code - OSS/storage.json
+- /home/*/.config/Code - OSS/
+! /home/*/.vscode-oss/
+
+# Python
+- **/venv
+! **/__pycache__
+# Nodejs
+! /home/*/.nvm
+! /home/*/.npm
+! **/node_modules
+# Rust
+! /home/*/.cargo/
+# PlatformIO
+! /home/*/.platformio/
+! **/.pio
+# Ruby / jekyll
+! **/ruby/*/gems
+! **/ruby/*/cache
+
+# Games
+! /home/*/Steam
+! /home/*/.local/share/Steam/
++ /home/*/.minecraft/saves
+- /home/*/.minecraft
