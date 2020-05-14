@@ -11,6 +11,7 @@ R /
 
 # Android dev
 ! /home/*/Android_SDK
+! /home/*/Hobby/Android_SDK
 ! /home/*/.android/avd
 
 # Android Studio
@@ -39,6 +40,9 @@ R /
 # Ruby / jekyll
 ! **/ruby/*/gems
 ! **/ruby/*/cache
+
+# Godot
+! /home/*/.local/share/godot/
 
 # Games
 ! /home/*/Steam

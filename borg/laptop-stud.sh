@@ -7,4 +7,4 @@ then
 fi
 pwd
 
-borg create -svp -C lz4 "Laptop::Home_t440s-{now:%y.%j}" ~/ --keep-exclude-tags --exclude-caches --exclude-if-present PUB_DL.TAG --exclude-if-present VM.TAG
+borg create -svp -C lz4 --patterns-from pattern.lst "Laptop::Home_t440s-{now:%y.%j}" ~/
