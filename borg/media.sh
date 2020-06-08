@@ -1,11 +1,5 @@
 #!/bin/bash
-sh=$(basename $0)
-if [ -f $sh ] 
-then
-    echo "In Utils folder! Going up..."
-    cd ..
-fi
-pwd
+source chg_dir.sh
 
 # udisksctl mount -b /dev/sdb2
 
