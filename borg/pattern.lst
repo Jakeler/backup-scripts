@@ -31,6 +31,7 @@ R /
 # Nodejs
 ! /home/*/.nvm
 ! /home/*/.npm
+! /home/*/.node-gyp
 ! **/node_modules
 # Rust
 ! /home/*/.cargo/
@@ -40,6 +41,8 @@ R /
 # Ruby / jekyll
 ! **/ruby/*/gems
 ! **/ruby/*/cache
+! /home/*/.bundle
+! /home/*/.gem
 
 # Godot
 ! /home/*/.local/share/godot/
