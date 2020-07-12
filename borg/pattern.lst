@@ -52,3 +52,6 @@ R /
 ! /home/*/.local/share/Steam/
 + /home/*/.minecraft/saves
 - /home/*/.minecraft
+
+# Wine
+! /home/*/.wine
