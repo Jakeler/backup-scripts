@@ -9,6 +9,9 @@ R /
 # KDE
 ! /home/*/.local/share/baloo/
 
+# Syncthing
+! /home/*/.local/share/syncthing/**/*.ldb
+
 # Android dev
 ! /home/*/Android_SDK
 ! /home/*/Hobby/Android_SDK
