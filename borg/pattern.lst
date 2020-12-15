@@ -4,7 +4,10 @@ R /
 # General
 ! /home/*/.cache
 ! /home/*/Downloads
+
+# VirtualBox
 ! /home/*/VirtualBox VMs
+- /home/*/.config/VirtualBox/*.iso
 
 # KDE
 ! /home/*/.local/share/baloo/
@@ -58,3 +61,6 @@ R /
 
 # Wine
 ! /home/*/.wine
+
+# ???
+! /home/*/.buildcache
