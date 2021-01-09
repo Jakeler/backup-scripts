@@ -21,6 +21,9 @@ R /
 ! /home/*/.android/avd
 
 # Android Studio
+! /home/*/Hobby/AndroidStudioProjects/**/build
+! /home/*/Hobby/AndroidStudioProjects/*/.gradle
+! /home/*/Hobby/AndroidStudioProjects/*/gradle
 + /home/*/.AndroidStudio*/config
 - /home/*/.AndroidStudio*/config/plugins
 - /home/*/.AndroidStudio*
