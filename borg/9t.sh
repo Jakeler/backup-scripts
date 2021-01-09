@@ -4,8 +4,8 @@ MNT=/tmp/MOUNT
 source chg_dir.sh
 
 ### simple-mtpfs does not work, use go-mtps from Google dev instead, run manually
-# mkdir -p $MNT
-# simple-mtpfs $MNT
+mkdir -p $MNT
+go-mtpfs $MNT & sleep 3
 
 [ $# -eq 1 ] && exclude_apk="--pattern '- **/TitaniumBackup/*.apk'"
 
@@ -15,8 +15,8 @@ if [ "$(ls -A $MNT)" ]; then
     borg create -svp -C lz4 --pattern '- **/*.mp4' "Multimedia::9T.DCIM-{now:%y.%j}" "$MNT/Interner gemeinsamer Speicher/DCIM/"
     #borg create -svp -C lz4 "Phone::TWRP-{now:%y.%j}" $MNT/TWRP/
 
-#     fusermount -u $MNT
+    fusermount -u $MNT
 else
-    echo "mount did not work!"
+    echo "MTP mount did not work!"
     exit 1
 fi
