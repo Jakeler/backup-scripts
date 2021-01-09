@@ -67,3 +67,7 @@ R /
 
 # ???
 ! /home/*/.buildcache
+! /home/*/.hunter
+
+# Crypto
+! /home/*/.bitmonero
