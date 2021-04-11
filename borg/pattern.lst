@@ -27,6 +27,7 @@ R /
 + /home/*/.AndroidStudio*/config
 - /home/*/.AndroidStudio*/config/plugins
 - /home/*/.AndroidStudio*
+! /home/*/.local/share/Google/AndroidStudio*
 ! /home/*/.gradle
 # Code
 + /home/*/.config/Code - OSS/User/settings.json
@@ -34,19 +35,27 @@ R /
 - /home/*/.config/Code - OSS/
 ! /home/*/.vscode-oss/
 
+
 # Python
 - **/venv
 ! **/__pycache__
+
 # Nodejs
 ! /home/*/.nvm
 ! /home/*/.npm
 ! /home/*/.node-gyp
 ! **/node_modules
+
 # Rust
 ! /home/*/.cargo/
+! /home/*/.rustup/
+
 # PlatformIO
 ! /home/*/.platformio/
 ! **/.pio
+# ESP framwork
+! /home/*/.espressif
+
 # Ruby / jekyll
 ! **/ruby/*/gems
 ! **/ruby/*/cache
@@ -56,11 +65,13 @@ R /
 # Godot
 ! /home/*/.local/share/godot/
 
+
 # Games
 ! /home/*/Steam
 ! /home/*/.local/share/Steam/
 + /home/*/.minecraft/saves
 - /home/*/.minecraft
+! /home/*/.config/discord
 
 # Wine
 ! /home/*/.wine
