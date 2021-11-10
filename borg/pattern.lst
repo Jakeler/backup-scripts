@@ -4,6 +4,7 @@ R /
 # General
 ! /home/*/.cache
 ! /home/*/Downloads
+! /home/*/Videos
 
 # VirtualBox
 ! /home/*/VirtualBox VMs
@@ -75,6 +76,8 @@ R /
 
 # Wine
 ! /home/*/.wine
+! /home/*/.local/share/lutris/
+! /home/*/Games/
 
 # ???
 ! /home/*/.buildcache
