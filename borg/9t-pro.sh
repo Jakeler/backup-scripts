@@ -12,7 +12,7 @@ exclude_apk=() # default include apks
 
 if [ "$(ls -A $MNT)" ]; then
 #    borg create -svp -C lz4 --pattern '- **/*.apk' "Phone::OABX+Signal-{now:%y.%j}" "$MNT/Interner gemeinsamer Speicher/OABX" "$MNT/Interner gemeinsamer Speicher/Signal"
-    borg create -svp -C lz4 "${exclude_apk[@]}" "Phone::TEST-OABX+Signal-{now:%y.%j}" "$MNT/Interner gemeinsamer Speicher/OABX" "$MNT/Interner gemeinsamer Speicher/Signal"
+    borg create -svp -C lz4 "${exclude_apk[@]}" "Phone::OABX+Signal-{now:%y.%j}" "$MNT/Interner gemeinsamer Speicher/OABX" "$MNT/Interner gemeinsamer Speicher/Signal"
 
     borg create -svp -C lz4 --pattern '- **/*.mp4' "Multimedia::9T.DCIM-{now:%y.%j}" "$MNT/Interner gemeinsamer Speicher/DCIM/"
 

@@ -85,3 +85,7 @@ R /
 
 # Crypto
 ! /home/*/.bitmonero
+
+# AUR
++ /home/*/Hobby/AUR/*PKGBUILD*/.git
+- /home/*/Hobby/AUR/*PKGBUILD*/
