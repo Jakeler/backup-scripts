@@ -66,6 +66,9 @@ R /
 # Godot
 ! /home/*/.local/share/godot/
 
+# Go
+! /home/*/.local/bin/
+
 
 # Games
 ! /home/*/Steam
