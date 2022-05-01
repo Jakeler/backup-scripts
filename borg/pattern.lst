@@ -92,3 +92,6 @@ R /
 # AUR
 + /home/*/Hobby/AUR/*PKGBUILD*/.git
 - /home/*/Hobby/AUR/*PKGBUILD*/
+
+# Freetube (electron)
+! /home/*/.config/FreeTube/Cache/
