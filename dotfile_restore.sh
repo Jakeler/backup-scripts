@@ -1,5 +1,8 @@
 #!/bin/bash
 
-git clone --bare git@github.com:Jakeler/dotfiles.git
+CLONE_DIR=$HOME/.dotfiles
 
-git --git-dir=dotfiles.git/ --work-tree=$HOME checkout
+git clone --bare git@github.com:Jakeler/dotfiles.git $CLONE_DIR
+
+git --git-dir=$CLONE_DIR --work-tree=$HOME checkout -f
+git --git-dir=$CLONE_DIR config status.showUntrackedFiles no
