@@ -1,0 +1,66 @@
+# INSTALL CONFIG
+api:
+  dashboard: false # Optional can be disabled
+  insecure: false # Optional can be disabled
+  debug: false # Optional can be Enabled if needed for troubleshooting 
+entryPoints:
+  # web:
+    # address: ":80"
+  # Optional if you want to redirect all HTTP to HTTPS
+  #  http:
+  #    redirections:
+  #      entryPoint:
+  #        to: websecure
+  #        scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls: {}
+    http3: true
+    # this section needs to be added
+    transport:
+      respondingTimeouts:
+        readTimeout: 600s
+        idleTimeout: 600s
+        writeTimeout: 600s
+# certificatesResolvers:
+#   letencrypt:
+#     acme:
+#       email: youremail@email.com
+#       storage: /certs/acme.json
+#       # caServer: https://acme-v02.api.letsencrypt.org/directory # prod (default)
+#       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging
+#       httpChallenge:
+#         entryPoint: web
+tls:
+  certificates:
+    - certFile: /certs/live/jklr.org/fullchain.pem
+      keyFile: /certs/live/jklr.org/privkey.pem
+
+log:
+  level: INFO
+
+#DYNAMIC CONNFIG needs file provider, could be seperate file
+providers:
+  file:
+    filename: "/traefik.yml"
+
+http:
+  # Add the router
+  routers:
+    immich:
+      entryPoints:
+        - websecure
+      tls:
+        domains:
+          - main: "immich.jklr.org"
+      service: immich
+      rule: Host(`immich.jklr.org`)
+
+  services:
+    immich:
+      loadBalancer:
+        servers:
+          - url: http://immich-server:2283
+          # - url: https://google.com
+        passHostHeader: false
