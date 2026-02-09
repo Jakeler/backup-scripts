@@ -35,3 +35,12 @@ btrfs dev stats /mnt/
 btrfs dev show /mnt
 btrfs dev usage /mnt
 btrfs fi show /dev/mapper/luks1
+
+
+# API keys etc. for docker
+truncate --size 4M /root/deploy_keys
+# reduced header size with 2 keyslots
+cryptsetup luksFormat --luks2-metadata-size=16k --luks2-keyslots-size=512k /root/deploy_keys
+cryptsetup open /root/deploy_keys keys
+mkfs.ext4 /dev/mapper/keys
+mount /dev/mapper/keys /root/keys
