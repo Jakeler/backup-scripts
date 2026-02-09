@@ -1,0 +1,6 @@
+deploy_keys
+keys/
+
+config/
+workdir/
+logs/

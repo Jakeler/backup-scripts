@@ -1,0 +1,14 @@
+name: certbot
+
+services:
+  dns01:
+    image: certbot/dns-cloudflare:latest
+#    entrypoint: sh
+    command: |
+        certonly --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/${CF_TOKEN} 
+        --email ${EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
+    volumes:
+      - ./workdir:/var/lib/letsencrypt
+      - ./logs:/var/log/letsencrypt
+      - ./config:/etc/letsencrypt
+      - /root/keys/${CF_TOKEN}:/etc/letsencrypt/${CF_TOKEN}:ro
