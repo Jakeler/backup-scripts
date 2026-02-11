@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  influxdb:
+    image: influxdb:2.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - "${BASEPATH}/db2:/var/lib/influxdb2"
+      - "${BASEPATH}/conf:/etc/influxdb2"
+      - "${BASEPATH}/backup:/backup"
+    #   - "${BASEPATH}/db1:/var/lib/influxdb"
+    #   - "${BASEPATH}/influxdb.conf:/etc/influxdb/influxdb.conf"
+    env_file: .env
+    restart: unless-stopped
+
+  telegraf:
+    image: telegraf:1.37
+    container_name: telegraf
+    restart: unless-stopped
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro  # Mount the Telegraf configuration file
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Mount the Docker socket to collect Docker metrics
+
+  grafana:
+    image: grafana/grafana:12.3
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - influxdb
+    volumes:
+    - "${BASEPATH}/grafana:/var/lib/grafana"
+    environment:
+       GF_PATHS_CONFIG: /var/lib/grafana/grafana.ini
+    restart: unless-stopped
+

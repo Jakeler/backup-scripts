@@ -1,0 +1,4 @@
+.env
+backup/
+db2/
+grafana/
