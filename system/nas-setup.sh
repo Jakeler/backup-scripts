@@ -22,11 +22,13 @@ sue /etc/udev/rules.d/discard.rules
 #> 0bda:9210 Realtek Semiconductor Corp. RTL9210 M.2 NVME Adapter
 #> ACTION=="add|change", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="9210", SUBSYSTEM=="scsi_disk", ATTR{provisioning_mode}="unmap"
 
-cryptsetup luksFormat /dev/sdb
-mkfs.btrfs -d raid1 /dev/mapper/luks* -L flashRaid2T 
+cryptsetup luksFormat --key-size 256 --sector-size 4096 /dev/sdb
 
 cryptsetup open /dev/sdb luks1
 cryptsetup open /dev/sdc luks2
+
+mkfs.btrfs -d raid1 -m raid1 /dev/mapper/luks* -L flashRaid2T 
+
 
 mount /dev/mapper/luks1 /mnt
 
@@ -35,6 +37,13 @@ btrfs dev stats /mnt/
 btrfs dev show /mnt
 btrfs dev usage /mnt
 btrfs fi show /dev/mapper/luks1
+
+
+mkfs.btrfs -d raid1 -m raid1 /dev/mapper/luks-sdb /dev/mapper/luks-sdc -L archiveRaid
+mount /dev/mapper/luks-sdb /mnt/archive
+
+btrfs subvolume create /mnt/archive/media
+btrfs subvolume create /mnt/archive/backup
 
 
 # API keys etc. for docker
