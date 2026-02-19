@@ -16,13 +16,16 @@ services:
     env_file: .env
     restart: unless-stopped
 
-  telegraf:
-    image: telegraf:1.37
-    container_name: telegraf
-    restart: unless-stopped
-    volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro  # Mount the Telegraf configuration file
-      - /var/run/docker.sock:/var/run/docker.sock:ro  # Mount the Docker socket to collect Docker metrics
+## Running directly on host, devices, mounts, networks are too much hassle
+## dnf install telegraf-1.37.2-1.x86_64.rpm; config /etc/telegraf/telegraf.conf
+  # telegraf:
+  #   image: telegraf:1.37
+  #   container_name: telegraf
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro  # Mount the Telegraf configuration file
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro  # Mount the Docker socket to collect Docker metrics
+  #   env_file: .env
 
   grafana:
     image: grafana/grafana:12.3
