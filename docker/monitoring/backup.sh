@@ -1,0 +1,16 @@
+# If lost get operator token (initial token), all access from webui is not enough for backups
+# docker compose down
+# tools/influxd recovery auth create-operator --bolt-path db2/influxd.bolt --org myOrg --username jake
+
+# source .env
+# tools/influx config create --config-name op \
+#                     --host-url "http://nas-server:8086" \
+#                     --org "myOrg" \
+#                     --token $INFLUX_OPERATOR_TOKEN \
+#                     --active
+
+tools/influx backup -b env/autogen backup/env_$(date --iso-8601)
+tools/influx backup -b db/autogen backup/db_$(date --iso-8601)
+
+rsync -a --info=PROGRESS2 /etc/snapper /etc/telegraf/telegraf.conf grafana/grafana.ini grafana/grafana.db backup/
+chown -R jk:users backup/

@@ -1,4 +1,5 @@
 .env
 backup/
+tools/
 db2/
 grafana/
