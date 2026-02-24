@@ -1,0 +1,135 @@
+#!/usr/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2022-2025  Manuel Fombuena <mfombuena@innovara.tech>
+#
+# sysmotd - generates a MOTD (Message Of The Day) including system 
+# information on Fedora Linux, and possibly other Red Hat-based distributions.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#  
+
+# directory where the motd files will live
+rundir="/run/motd.d"
+header="$rundir/00-sysmotd-header.motd"
+sysinfo="$rundir/01-sysmotd-sysinfo.motd"
+updates="$rundir/02-sysmotd-updates.motd"
+
+# some variables
+. /etc/os-release
+
+# hostname
+hostname=$(uname -n)
+
+# uptime
+uptime=$(awk '{print int($1)}' /proc/uptime)
+up_days=$((uptime/60/60/24))
+up_hours=$((uptime/60/60%24))
+up_mins=$((uptime/60%60))
+up_secs=$((uptime%60))
+
+# avg load
+load_1=$(awk '{print $1}' /proc/loadavg)
+load_5=$(awk '{print $2}' /proc/loadavg)
+load_15=$(awk '{print $3}' /proc/loadavg)
+
+# memory
+mem_total=$(awk '/MemTotal/ {print $2;}' /proc/meminfo)
+mem_used=$(($mem_total-$(awk '/MemFree/ {print $2;}' /proc/meminfo)-$(awk '/Buffers/ {print $2;}' /proc/meminfo)-$(awk '/\yCached\y/ {print $2;}' /proc/meminfo)))
+[[ $mem_total != 0 ]] && mem_perc=$((mem_used*100/mem_total)) || mem_perc=0
+mem_perc=$(($mem_used*100/$mem_total))
+swap_total=$(awk '/SwapTotal/ {print $2;}' /proc/meminfo)
+swap_used=$((${swap_total} - $(awk '/SwapFree/ {print $2;}' /proc/meminfo)-$(awk '/SwapCached/ {print $2;}' /proc/meminfo)))
+[[ $swap_total != 0 ]] && swap_perc=$((swap_used*100/swap_total)) || swap_perc=0
+
+# filesystem info
+root_used=$(df -h --output=used / | awk '{if (NR!=1) print $1}')
+root_total=$(df -h --output=size / | awk '{if (NR!=1) print $1}')
+root_perc=$(df -h --output=pcent / | awk '{if (NR!=1) print $1}')
+
+# users
+users=$(users | wc -w)
+
+# processes
+processes=$(ps aux --no-headers | wc -l)
+
+# SELinux
+se_status=$(sestatus | awk '/^SELinux status:/ {print $3;}')
+[[ "$se_status" != "disabled" ]] && se_mode=$(sestatus | awk '/^Current mode/ {print ($3);}')
+
+# input data for system info table (5x5)
+sysarray=()
+sysarray+=('Hostname:;') #r1 c1
+sysarray+=(${hostname}';') #r1 c2
+sysarray+=($'\t;') #r1 c3
+sysarray+=(';') #r1 c4
+sysarray+=(';') #r1 c5
+sysarray+=('Uptime:;') #r2 c1
+sysarray+=(${up_days}'d '${up_hours}'h '${up_mins}'m '${up_secs}'s;') #r2 c2
+sysarray+=($'\t;') #r2 c3
+sysarray+=('Usage of /:;') #r2 c4
+sysarray+=(${root_used}'/'${root_total}' ('${root_perc}');') #r2 c5
+sysarray+=('Load 1-5-15min:;') #r3 c1
+sysarray+=(${load_1}'-'${load_5}'-'${load_15}';') #r3 c2
+sysarray+=($'\t;') #r3 c3
+sysarray+=('SElinux:;') #r3 c4
+[[ "$se_status" != "disabled" ]] && sysarray+=(${se_status}' ('${se_mode}');') || sysarray+=(${se_status}';') #r3 c5
+sysarray+=('Memory usage:;') #r4 c1
+sysarray+=($((${mem_used}/1024))'/'$((${mem_total}/1024))'M ('${mem_perc}'%);') #r4 c2
+sysarray+=($'\t;') #r4 c3
+sysarray+=('Processes:;') #r4 c4
+sysarray+=(${processes}';') #r4 c5
+sysarray+=('Swap usage:;') #r5 c1
+sysarray+=($((${swap_used}/1024))'/'$((${swap_total}/1024))'M ('${swap_perc}'%);') #r5 c2
+sysarray+=($'\t;') #r3 c3
+sysarray+=('Users:;') #r5 c4
+sysarray+=(${users}';') #r5 c5
+
+
+### MOTD ###
+
+# colourful header. Updated every 60 minutes only but no real performance gain
+NEED_UPDATE="FALSE"
+[ -z "$(find "$header" -newermt 'now-60 minutes' 2> /dev/null)" ] && NEED_UPDATE="TRUE"
+
+[[ "$NEED_UPDATE" = "TRUE" ]] && \
+	echo "$(figlet ${REDHAT_SUPPORT_PRODUCT} ${REDHAT_SUPPORT_PRODUCT_VERSION} $(hostname) -c | lolcat -r -f)" > $header
+
+# sysinfo update
+echo -e "Welcome to ${PRETTY_NAME} ($(uname -o) $(uname -r))
+
+System information as of $(date)
+" > $sysinfo
+
+printf '%s %s %s %s %s\n' "${sysarray[@]}" | column -t -s $';' >> $sysinfo
+
+echo -e "" >> $sysinfo
+
+# available updates refreshes every 60 minutes using CACHE.
+# dnf's cache is updated by the system using its own service and timer. The conservative 
+# approach is to not to change this.
+NEED_UPDATE="FALSE"
+[ -z "$(find "$updates" -newermt 'now-60 minutes' 2> /dev/null)" ] && NEED_UPDATE="TRUE"
+
+if [[ "$NEED_UPDATE" = "TRUE" ]]; then
+   n_updates=$(dnf update --assumeno --cacheonly --noplugins | awk '/^ Upgrading/ {print $2;}')
+   if [[ $n_updates -eq 0 ]]; then
+      echo -e "There were no updates available when last checked.\n" > $updates
+   elif [[ $n_updates -eq 1 ]]; then
+      echo -e "There was 1 update available when last checked.\n" > $updates
+   else
+      echo -e "There were ${n_updates} updates available when last checked.\n" > $updates
+   fi
+
+   echo -e "$(dnf needs-restarting | lolcat -f -r)" >> $updates
+fi
