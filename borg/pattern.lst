@@ -14,6 +14,7 @@ P sh
 
 # Syncthing
 ! home/*/.local/share/syncthing/**/*.ldb
+! home/*/.local/state/syncthing/
 
 # Android dev
 ! home/*/Android_SDK
@@ -29,11 +30,11 @@ P sh
 - home/*/.AndroidStudio*
 ! home/*/.local/share/Google/AndroidStudio*
 ! home/*/.gradle
-# Code
-+ home/*/.config/Code - OSS/User/settings.json
-+ home/*/.config/Code - OSS/storage.json
-- home/*/.config/Code - OSS/
-! home/*/.vscode-oss/
+# VS Code / Code OSS
++ home/*/.config/Code*/User/settings.json
++ home/*/.config/Code*/storage.json
+- home/*/.config/Code*/
+! home/*/.vscode*/
 
 
 # Python
@@ -68,6 +69,9 @@ P sh
 # Go
 ! home/*/.local/bin/
 
+
+# Spotify
+! home/*/.local/share/spotify-launcher/
 
 # Games
 ! home/*/Steam
