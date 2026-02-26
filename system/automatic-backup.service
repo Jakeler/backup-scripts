@@ -1,0 +1,6 @@
+[Unit]
+Description=Automated borg (nas/influx, phone/syncthing, immich) backup, btrfs snapshot and b2 upload
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash /mnt/software/backup-scripts/system/automatic-backup.sh

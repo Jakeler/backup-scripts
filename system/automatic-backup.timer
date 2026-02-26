@@ -1,0 +1,10 @@
+
+[Unit]
+Description=Run backups twice per week
+
+[Timer]
+OnCalendar=Mon,Fri *-*-* 03:00:00
+
+[Install]
+WantedBy=timers.target
+
