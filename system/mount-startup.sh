@@ -25,7 +25,7 @@ btrfs fi show /mnt/archive
 
 
 echo "Unlocking deploy (cf) keys"
-cryptsetup open /mnt/backup/backup-scripts/docker/certs/deploy_keys keys
+cryptsetup open /mnt/software/backup-scripts/docker/certs/deploy_keys keys
 mount /dev/mapper/keys /root/keys
 
 
