@@ -73,20 +73,21 @@ services:
     #     - 5432:5432
     restart: always
 
-
-  traefik:
-    image: traefik:v3
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-    ports:
-      # - 80:80 # HTTP entryPoints
-      - 443:443 # HTTPS entryPoints
-      - 443:443/udp # HTTP3
-      # - 8080:8080 # Dashbaord WebGui
-    volumes:
-      - ./traefik.yml:/traefik.yml:ro # Traefik config file
-      - ../certs/config:/certs:ro # Docker volume to store the acme file for the Certifactes
+  ## See separate proxy stack, running on caddy
+  # traefik:
+  #   container_name: immich_proxy
+  #   image: traefik:v3
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   ports:
+  #     # - 80:80 # HTTP entryPoints
+  #     - 443:443 # HTTPS entryPoints
+  #     - 443:443/udp # HTTP3
+  #     # - 8080:8080 # Dashbaord WebGui
+  #   volumes:
+  #     - ./traefik.yml:/traefik.yml:ro # Traefik config file
+  #     - ../certs/config:/certs:ro # Docker volume to store the acme file for the Certifactes
+  #   restart: always
 
 volumes:
   model-cache:

@@ -1,0 +1,38 @@
+# {
+# 	auto_https off
+#   # debug
+# }
+
+# http://nas-server {
+#   log
+#   reverse_proxy grafana:3000
+# }
+
+*.nas.jklr.org  {
+  log
+  tls {
+    dns dynv6 {env.DYNV6_API_TOKEN}
+  }
+
+  @mon host mon.nas.jklr.org
+  handle @mon {
+    reverse_proxy grafana:3000
+  }
+
+  @dns host dns.nas.jklr.org
+  handle @dns {
+    reverse_proxy adguard:80
+  }
+
+  @immich host immich.nas.jklr.org
+  handle @immich {
+    reverse_proxy immich-server:2283
+  }
+
+  # Fallback for otherwise unhandled domains
+  handle {
+    respond "Domain not recognized" 404
+  }
+}
+
+
