@@ -31,3 +31,4 @@ mount /dev/mapper/keys /root/keys
 
 echo "Launching docker services"
 systemctl start docker.service
+systemctl start telegraf.service

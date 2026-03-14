@@ -3,3 +3,4 @@ backup/
 tools/
 db2/
 grafana/
+*.rpm
