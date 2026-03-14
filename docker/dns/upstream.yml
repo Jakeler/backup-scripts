@@ -1,0 +1,29 @@
+# CF = USA
+h3://security.cloudflare-dns.com/dns-query
+# Adguard = Cyprus, previously Russia
+quic://unfiltered.adguard-dns.com
+# Qaud9 = Switzerland non profit
+## 2.dnscrypt-cert.quad9.net - 9.9.9.9:8443
+# sdns://AQMAAAAAAAAADDkuOS45Ljk6ODQ0MyBnyEe4yHWM0SAkVUO-dWdG3zTfHYTAC4xHA2jfgh2GPhkyLmRuc2NyeXB0LWNlcnQucXVhZDkubmV0
+sdns://AQMAAAAAAAAAElsyNjIwOmZlOjpmZV06ODQ0MyBnyEe4yHWM0SAkVUO-dWdG3zTfHYTAC4xHA2jfgh2GPhkyLmRuc2NyeXB0LWNlcnQucXVhZDkubmV0
+# Mullvad = Sweden
+https://dns.mullvad.net/dns-query
+# rethinkdns (Celzero) = India, but uses CF+AWS
+h3://sky.rethinkdns.com/dns-query
+# Control D = Canada
+quic://p1.freedns.controld.com
+# Tiarap = Singapore, but uses DigitalOcean, SLOW
+# quic://doh.tiar.app
+# 2.dnscrypt-cert.dns.tiar.app - 174.138.21.128
+#sdns://AQMAAAAAAAAADjE3NC4xMzguMjEuMTI4IO-WgGbo2ZTwZdg-3dMa7u31bYZXRj5KykfN1_6Xw9T2HDIuZG5zY3J5cHQtY2VydC5kbnMudGlhci5hcHA
+# Switch (.ch registry)
+https://dns.switch.ch/dns-query
+# Applied Privacy = Austria non profit
+https://doh.applied-privacy.net/query
+
+# local dhcp
+[//lan/]fd00:bad:a55:1::1
+
+### Fallback
+# https://dns10.quad9.net/dns-query
+# h3://dns.google/dns-query

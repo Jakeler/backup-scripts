@@ -1,0 +1,21 @@
+services:
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+    restart: unless-stopped
+    ports:
+      # - "8080:80/tcp" # Web interface
+      # - "8443:443/tcp" # Web interface + DoH (HTTP/2)
+      # - "8443:443/udp" # Web interface + DoH3 (HTTP/3)
+      - "53:53/tcp" # Do53 (TCP)
+      - "53:53/udp" # Do53 (UDP)
+      - "853:853/udp" # DoQ (Quic)
+    volumes:
+      - ./work:/opt/adguardhome/work:z
+      - ./conf:/opt/adguardhome/conf:z
+      - ./upstream.yml:/opt/adguardhome/conf/upstream.yml:z
+    networks:
+      - ip6net
+networks:
+  ip6net:
+    enable_ipv6: true
